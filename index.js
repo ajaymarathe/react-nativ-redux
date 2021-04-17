@@ -2,20 +2,37 @@
 /**
  * @format
  */
-
+import React from 'react';
 import {AppRegistry} from 'react-native';
-import App from './App';
+import Counter from './App';
 import {name as appName} from './app.json';
-
+import {createStore} from 'redux';
 import {Provider} from 'react-redux';
-import {configureStore} from './store/configureStore';
 
-const store = configureStore();
-
-const RNRedux = () => {
-  <Provider store={store}>
-    <App />
-  </Provider>;
+const initialState = {
+  count: 0,
 };
 
-AppRegistry.registerComponent(appName, () => RNRedux);
+function reducer(state = initialState, action) {
+  switch (action.type) {
+    case 'INCREMENT':
+      return {
+        count: state.count + 1,
+      };
+    case 'DECREMENT':
+      return {
+        count: state.count - 1,
+      };
+    default:
+      return state;
+  }
+}
+
+const store = createStore(reducer);
+const App = () => (
+  <Provider store={store}>
+    <Counter />
+  </Provider>
+);
+
+AppRegistry.registerComponent(appName, () => App);

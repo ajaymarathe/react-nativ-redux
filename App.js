@@ -2,33 +2,22 @@
 import React, {Component} from 'react';
 import {Button, StyleSheet, Text, View} from 'react-native';
 import {connect} from 'react-redux';
-import {changeCount} from './actions/counts';
-import {bindActionCreators} from 'redux';
 
 class App extends Component {
-  state = {
-    count: 0,
-  };
-
   Add() {
-    console.log('add');
-    this.setState({
-      count: this.state.count + 1,
-    });
+    this.props.dispatch({type: 'INCREMENT'});
   }
 
   Remove() {
-    console.log('remove');
-    this.setState({
-      count: this.state.count - 1,
-    });
+    this.props.dispatch({type: 'DECREMENT'});
   }
 
   render() {
+    console.log('this.props:', this.props);
     return (
       <View style={styles.mainContainer}>
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          <Text> Count is: {this.state.count} </Text>
+          <Text> Count is: {this.props.count} </Text>
         </View>
         <View style={styles.secondContainer}>
           <Button title="Add" onPress={() => this.Add()} />
@@ -51,8 +40,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state, actions) => ({
-  count: state.count,
-});
+function mapStateToProps(state) {
+  return {
+    count: state.count,
+  };
+}
 
 export default connect(mapStateToProps)(App);
