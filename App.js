@@ -1,8 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
 import {Button, StyleSheet, Text, View} from 'react-native';
+import {connect} from 'react-redux';
+import {changeCount} from './actions/counts';
+import {bindActionCreators} from 'redux';
 
-export default class App extends Component {
+class App extends Component {
   state = {
     count: 0,
   };
@@ -47,3 +50,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
 });
+
+const mapStateToProps = (state, actions) => ({
+  count: state.count,
+});
+
+export default connect(mapStateToProps)(App);
